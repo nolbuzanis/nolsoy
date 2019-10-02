@@ -18,6 +18,22 @@ passport.use(
   )
 );
 
+app.get(
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email']
+  })
+);
+
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful, direct home
+    res.redirect('/');
+  }
+);
+
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, (req, res) => {
   console.log('Server running on port: ', PORT);
