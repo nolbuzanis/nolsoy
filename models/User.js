@@ -1,10 +1,19 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const Sequelize = require('sequelize');
 
-const userSchema = new Schema({
-  googleId: String,
-  name: String,
-  email: String
+// Import database instance
+const sequelize = require('../services/database');
+
+const User = sequelize.define('user', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true
+  },
+  googleId: Sequelize.STRING,
+  email: Sequelize.STRING,
+  password: Sequelize.STRING,
+  spotifyURI: Sequelize.STRING
 });
 
-mongoose.model('users', userSchema);
+module.exports = User;
