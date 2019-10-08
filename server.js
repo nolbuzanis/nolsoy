@@ -1,11 +1,12 @@
 const express = require('express');
-require('./services/passport'); //Passport config
-const mongoose = require('mongoose');
 const keys = require('./config/keys');
+const passport = require('passport');
 
-mongoose.connect(keys.mongoURI);
+require('./models/User');
+require('./services/passport'); //Passport config
 
 const app = express();
+//app.use(passport.initialize());
 
 require('./routes/authRoutes')(app); //Google oauth routes
 
