@@ -8,7 +8,7 @@ require('./models/user');
 require('./services/passport'); //Passport config
 
 const app = express();
-//app.use(passport.initialize());
+app.use(passport.initialize());
 
 require('./routes/authRoutes')(app); //Google oauth routes
 

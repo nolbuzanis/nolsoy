@@ -10,6 +10,7 @@ const User = sequelize.define('user', {
     allowNull: false,
     primaryKey: true
   },
+  name: Sequelize.STRING,
   googleId: Sequelize.STRING,
   email: Sequelize.STRING,
   password: Sequelize.STRING,
