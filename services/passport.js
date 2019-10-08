@@ -3,7 +3,12 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const keys = require('../config/keys');
 const User = require('../models/user');
 
+// JWT tokens stuff
+const JWTStrategy = require('passport-jwt').Strategy;
+const ExtractJWT = require('passport-jwt').ExtractJwt;
+
 passport.use(
+  'login',
   new GoogleStrategy(
     {
       clientID: keys.googleClientId,
@@ -34,4 +39,34 @@ passport.use(
       }
     }
   )
+);
+
+const options = {
+  jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('JWT'),
+  secretOrKey: keys.JWTKey
+};
+
+passport.use(
+  'jwt',
+  new JWTStrategy(options, async (jwt_payload, done) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          googleId: jwt_payload.id
+        }
+      });
+
+      // If user exists
+      if (user) {
+        console.log('User found in db, pass user on through passport process');
+        done(null, user);
+      } else {
+        // User not found
+        console.log('User not found in db.');
+        done(null, false);
+      }
+    } catch (err) {
+      done(err);
+    }
+  })
 );
