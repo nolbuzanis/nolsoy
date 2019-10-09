@@ -28,7 +28,7 @@ module.exports = app => {
           user: user
         });
       }
-
+      console.log('Made it to here!');
       req.login(user, { session: false }, err => {
         if (err) {
           res.send(err);
