@@ -8,7 +8,7 @@ const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 passport.use(
-  'login',
+  'google',
   new GoogleStrategy(
     {
       clientID: keys.googleClientId,
@@ -17,6 +17,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        console.log(profile);
         const existingUser = await User.findOne({
           where: {
             googleId: profile.id
@@ -42,7 +43,7 @@ passport.use(
 );
 
 const options = {
-  jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('JWT'),
+  jwtFromRequest: req => req.cookies.jwt,
   secretOrKey: keys.JWTKey
 };
 
@@ -50,6 +51,10 @@ passport.use(
   'jwt',
   new JWTStrategy(options, async (jwt_payload, done) => {
     try {
+      if (Date.now() > jwt_payload.expires) {
+        return done('jwt expired');
+      }
+
       const user = await User.findOne({
         where: {
           googleId: jwt_payload.id
@@ -59,14 +64,14 @@ passport.use(
       // If user exists
       if (user) {
         console.log('User found in db, pass user on through passport process');
-        done(null, user);
+        return done(null, user);
       } else {
         // User not found
         console.log('User not found in db.');
-        done(null, false);
+        return done(null, false);
       }
     } catch (err) {
-      done(err);
+      return done(err);
     }
   })
 );

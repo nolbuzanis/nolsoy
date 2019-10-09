@@ -1,4 +1,6 @@
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
+const keys = require('../config/keys');
 
 module.exports = app => {
   app.get(
@@ -11,10 +13,10 @@ module.exports = app => {
   app.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-      failureRedirect: '/'
+      session: false,
+      failureRedirect: '/login'
     }),
-    function(req, res) {
-      // Successful, direct home
+    (req, res) => {
       res.redirect('/');
     }
   );

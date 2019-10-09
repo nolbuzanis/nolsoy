@@ -3,14 +3,18 @@ const keys = require('./config/keys');
 const passport = require('passport');
 
 const sequelize = require('./services/database');
+const app = express();
 
 require('./models/user');
 require('./services/passport'); //Passport config
 
-const app = express();
 app.use(passport.initialize());
 
 require('./routes/authRoutes')(app); //Google oauth routes
+
+app.get('/', (req, res) => {
+  res.send('<h1>Home Route</h1>');
+});
 
 // creates approporate tables and syncs them if already exists
 sequelize
