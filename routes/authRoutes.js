@@ -38,9 +38,6 @@ module.exports = app => {
         const token = jwt.sign(user, keys.JWTKey);
         return res.json({ user, token });
       });
-
-      console.log(user);
-      res.redirect('/');
     }
   );
 };
