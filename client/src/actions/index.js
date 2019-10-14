@@ -4,7 +4,7 @@ import axios from 'axios';
 export const userLoginGoogle = () => async dispatch => {
   console.log('Action creator called!');
   try {
-    const response = await axios.get('/auth/google');
+    const response = await axios.get('http://localhost:3000/auth/google');
 
     console.log('Reponse: ');
     console.log(response);

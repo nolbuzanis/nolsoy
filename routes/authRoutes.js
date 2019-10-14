@@ -1,11 +1,15 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const keys = require('../config/keys');
 
 module.exports = app => {
+  app.use(cors());
+
   app.get(
     '/auth/google',
+    cors(),
     passport.authenticate('google', {
       scope: ['profile', 'email']
     })
@@ -28,7 +32,7 @@ module.exports = app => {
           user: user
         });
       }
-      console.log('Made it to here!');
+
       req.login(user, { session: false }, err => {
         if (err) {
           res.send(err);
@@ -37,6 +41,20 @@ module.exports = app => {
         // Generate signed JWT token with user object and return it in response object for client to assign to localStorage
         const token = jwt.sign(user, keys.JWTKey);
         return res.json({ user, token });
+
+        /*  const htmlWithEmbeddedJWT = `
+    <html>
+      <script>
+        // Save JWT to localStorage
+        window.localStorage.setItem('JWT', '${token}');
+         window.localStorage.setItem('user', '${JSON.stringify(user)}');
+        // Redirect browser to root of application
+        window.location.href = '/';
+      </script>
+    </html>
+    `; 
+
+        res.send(htmlWithEmbeddedJWT);*/
       });
     }
   );

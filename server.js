@@ -4,7 +4,9 @@ const passport = require('passport');
 
 const sequelize = require('./services/database');
 const app = express();
+const cors = require('cors');
 
+app.use(cors());
 require('./models/user');
 require('./services/passport'); //Passport config
 
