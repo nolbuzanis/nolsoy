@@ -1,6 +1,5 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const cors = require('cors');
 
 const keys = require('../config/keys');
 
@@ -9,7 +8,7 @@ module.exports = app => {
 
   app.get(
     '/auth/google',
-    cors(),
+
     passport.authenticate('google', {
       scope: ['profile', 'email']
     })
