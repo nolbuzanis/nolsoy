@@ -8,7 +8,7 @@ const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user.googleId);
 });
 
 passport.deserializeUser(async (id, done) => {
@@ -18,6 +18,7 @@ passport.deserializeUser(async (id, done) => {
         googleId: id
       }
     });
+    console.log('user: ', user);
     done(null, user);
   } catch (err) {
     console.log(err);

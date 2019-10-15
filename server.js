@@ -13,11 +13,11 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 require('./models/user');
 require('./services/passport'); //Passport config
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 require('./routes/authRoutes')(app); //Google oauth routes
 

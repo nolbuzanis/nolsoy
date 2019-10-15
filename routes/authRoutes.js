@@ -1,7 +1,7 @@
 const passport = require('passport');
 //const jwt = require('jsonwebtoken');
 
-const keys = require('../config/keys');
+//const keys = require('../config/keys');
 
 module.exports = app => {
   app.get(
