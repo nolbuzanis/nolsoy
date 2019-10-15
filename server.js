@@ -1,19 +1,32 @@
 const express = require('express');
 const keys = require('./config/keys');
 const passport = require('passport');
+const cookieSession = require('cookie-session');
 
 const sequelize = require('./services/database');
 const app = express();
 
-require('./models/user');
-require('./services/passport'); //Passport config
+app.use(
+  cookieSession({
+    maxAge: 59 * 60 * 1000, //Last for <1 hr (in microseconds)
+    keys: [keys.cookieKey]
+  })
+);
 
 app.use(passport.initialize());
+app.use(passport.session());
+
+require('./models/user');
+require('./services/passport'); //Passport config
 
 require('./routes/authRoutes')(app); //Google oauth routes
 
 app.get('/', (req, res) => {
   res.send('<h1>Home Route</h1>');
+});
+
+app.get('/api/get_current_user', (req, res) => {
+  res.send(req.user);
 });
 
 // creates approporate tables and syncs them if already exists

@@ -1,11 +1,9 @@
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
+//const jwt = require('jsonwebtoken');
 
 const keys = require('../config/keys');
 
 module.exports = app => {
-  app.use(cors());
-
   app.get(
     '/auth/google',
 
@@ -17,12 +15,15 @@ module.exports = app => {
   app.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-      session: false,
-      failureRedirect: '/login'
+      successRedirect: '/',
+      failureRedirect: '/login',
+      failureFlash: true
     }),
     (req, res, next) => {
       // Assume user is logged in. Authentication errors handled by passport since passport.authenticate() only continues if user login is sucessful
       // Grab user from req.user
+      next();
+      /*
       const user = req.user.dataValues;
 
       if (!user) {
@@ -41,7 +42,7 @@ module.exports = app => {
         const token = jwt.sign(user, keys.JWTKey);
         return res.json({ user, token });
 
-        /*  const htmlWithEmbeddedJWT = `
+          const htmlWithEmbeddedJWT = `
     <html>
       <script>
         // Save JWT to localStorage
@@ -53,8 +54,8 @@ module.exports = app => {
     </html>
     `; 
 
-        res.send(htmlWithEmbeddedJWT);*/
-      });
+        res.send(htmlWithEmbeddedJWT);
+      });*/
     }
   );
 };

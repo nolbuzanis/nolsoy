@@ -7,6 +7,24 @@ const User = require('../models/user');
 const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        googleId: id
+      }
+    });
+    done(null, user);
+  } catch (err) {
+    console.log(err);
+    done(err);
+  }
+});
+
 passport.use(
   'google',
   new GoogleStrategy(
