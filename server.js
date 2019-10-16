@@ -2,6 +2,7 @@ const express = require('express');
 const keys = require('./config/keys');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
+const morgan = require('morgan');
 
 const sequelize = require('./config/database');
 const app = express();
@@ -16,6 +17,7 @@ app.use(
 require('./models/user');
 require('./services/passport'); //Passport config
 
+app.use(morgan('dev')); // Log every req to the console
 app.use(passport.initialize());
 app.use(passport.session());
 
