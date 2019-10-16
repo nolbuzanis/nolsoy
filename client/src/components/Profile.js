@@ -24,7 +24,7 @@ class Profile extends React.Component {
   };
 
   render() {
-    return <p>{this.renderUserDetails()}</p>;
+    return <div>{this.renderUserDetails()}</div>;
   }
 }
 
