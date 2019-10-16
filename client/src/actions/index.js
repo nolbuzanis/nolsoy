@@ -1,5 +1,15 @@
-import { GOOGLE_USER_LOGIN } from './types';
+import { GOOGLE_USER_LOGIN, FETCH_USER } from './types';
 import axios from 'axios';
+
+export const fetchUser = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/get_current_user');
+
+    dispatch({ type: FETCH_USER, payload: res.data });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const userLoginGoogle = () => async dispatch => {
   console.log('Action creator called!');

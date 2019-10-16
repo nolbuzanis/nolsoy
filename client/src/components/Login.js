@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { userLoginGoogle } from '../actions';
 
 class Login extends React.Component {
   handleUserLogin = () => {
@@ -10,18 +8,11 @@ class Login extends React.Component {
 
   render() {
     return (
-      <button
-        type='button'
-        className='btn btn-primary'
-        onClick={() => this.handleUserLogin()}
-      >
+      <a type='button' className='btn btn-primary' href='/auth/google'>
         Log in with Google
-      </button>
+      </a>
     );
   }
 }
 
-export default connect(
-  null,
-  { userLoginGoogle }
-)(Login);
+export default Login;
