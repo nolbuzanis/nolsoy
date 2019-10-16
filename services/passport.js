@@ -1,5 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 const keys = require('../config/keys');
 const User = require('../models/user');
 
@@ -42,7 +43,7 @@ passport.use(
           const newUser = {
             googleId: profile.id,
             name: profile.displayName,
-            email: profile.emails[0].value
+            googleEmail: profile.emails[0].value
           };
           User.create(newUser);
           done(null, newUser);

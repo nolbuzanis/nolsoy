@@ -3,9 +3,12 @@ const passport = require('passport');
 //const keys = require('../config/keys');
 
 module.exports = app => {
+  app.post('/login', passport.authenticate('local'));
+
+  app.post('/signup', passport.authenticate('local'));
+
   app.get(
     '/auth/google',
-
     passport.authenticate('google', {
       scope: ['profile', 'email']
     })
