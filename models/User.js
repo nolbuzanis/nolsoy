@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 // Import database instance
-const sequelize = require('../services/database');
+const sequelize = require('../config/database');
 
 const User = sequelize.define('user', {
   id: {

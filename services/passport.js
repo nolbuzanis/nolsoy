@@ -8,16 +8,13 @@ const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 passport.serializeUser((user, done) => {
-  done(null, user.googleId);
+  done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findOne({
-      where: {
-        googleId: id
-      }
-    });
+    const user = await User.findByPk(id);
+
     console.log('user: ', user);
     done(null, user);
   } catch (err) {

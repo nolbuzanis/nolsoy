@@ -1,5 +1,5 @@
 const Sequalize = require('sequelize');
-const keys = require('../config/keys');
+const keys = require('./keys');
 
 // Open the connection
 const sequelize = new Sequalize('nolsoy-dev', 'root', keys.mySqlPassword, {

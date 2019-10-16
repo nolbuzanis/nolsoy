@@ -3,7 +3,7 @@ const keys = require('./config/keys');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
 
-const sequelize = require('./services/database');
+const sequelize = require('./config/database');
 const app = express();
 
 app.use(
