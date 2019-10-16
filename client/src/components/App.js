@@ -1,39 +1,21 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { fetchUser } from '../actions';
+import { BrowserRouter, Route } from 'react-router-dom';
 import Login from './Login';
+import Profile from './Profile';
+import Signup from './Signup';
 
 class App extends React.Component {
-  componentDidMount = () => {
-    if (!this.props.user) {
-      this.props.fetchUser();
-    }
-  };
-
-  renderUserDetails = () => {
-    if (!this.props.user) {
-      return <p>No User Logged in!</p>;
-    }
-    return <p>{JSON.stringify(this.props.user)}</p>;
-  };
-
   render() {
     return (
       <div className='App'>
-        <Login />
-        {this.renderUserDetails()}
-        <a className='btn btn-secondary' href='/api/logout'>
-          Logout
-        </a>
+        <BrowserRouter>
+          <Route path='/login' exact component={Login} />
+          <Route path='/signup' exact component={Signup} />
+          <Profile />
+        </BrowserRouter>
       </div>
     );
   }
 }
-const mapStateToProps = state => {
-  return { user: state.user };
-};
 
-export default connect(
-  mapStateToProps,
-  { fetchUser }
-)(App);
+export default App;
