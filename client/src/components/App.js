@@ -22,6 +22,9 @@ class App extends React.Component {
       <div className='App'>
         <Login />
         {this.renderUserDetails()}
+        <a className='btn btn-secondary' href='/api/logout'>
+          Logout
+        </a>
       </div>
     );
   }

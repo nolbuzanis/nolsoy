@@ -8,7 +8,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <a type='button' className='btn btn-primary' href='/auth/google'>
+      <a className='btn btn-primary' href='/auth/google'>
         Log in with Google
       </a>
     );
