@@ -12,6 +12,7 @@ const User = sequelize.define('user', {
   },
   email: Sequelize.STRING,
   password: Sequelize.STRING,
+  hash: Sequelize.STRING,
   googleId: Sequelize.STRING,
   name: Sequelize.STRING,
   googleEmail: Sequelize.STRING,

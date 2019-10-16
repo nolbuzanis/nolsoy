@@ -3,9 +3,15 @@ const passport = require('passport');
 //const keys = require('../config/keys');
 
 module.exports = app => {
-  app.post('/login', passport.authenticate('local'));
+  //app.post('/login', passport.authenticate('local'));
 
-  app.post('/signup', passport.authenticate('local'));
+  app.post(
+    '/signup',
+    passport.authenticate('local-signup', {
+      successRedirect: '/',
+      failureRedirect: '/signup'
+    })
+  );
 
   app.get(
     '/auth/google',

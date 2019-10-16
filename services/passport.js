@@ -3,6 +3,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 const keys = require('../config/keys');
 const User = require('../models/user');
+const bcrypt = require('bcryptjs');
 
 // JWT tokens stuff
 const JWTStrategy = require('passport-jwt').Strategy;
@@ -22,6 +23,51 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   }
 });
+
+passport.use(
+  'local-signup',
+  new LocalStrategy(
+    {
+      // Override local strategy which uses 'username' and 'password'
+      usernameField: 'email',
+      passwordField: 'password',
+      passReqToCallback: true
+    },
+    async (email, password, done) => {
+      try {
+        const user = await User.findOne({
+          where: {
+            email: email
+          }
+        });
+
+        // If user already exists with that email then return with no user.
+        if (user) {
+          console.log('User already exists');
+          return done(
+            null,
+            false,
+            'signupMessage',
+            'That email is already taken.'
+          );
+        }
+
+        // If no user exists, create a new user with hashed password
+        var hash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+
+        const newUser = {
+          email: email,
+          password: hash
+        };
+        User.create(newUser);
+        done(null, newUser);
+      } catch (err) {
+        console.log(err);
+        return done(err);
+      }
+    }
+  )
+);
 
 passport.use(
   'google',
