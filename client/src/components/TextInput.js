@@ -1,6 +1,14 @@
 import React from 'react';
 
-const TextInput = ({ name, placeholder, type, value, onChangeHandler }) => {
+const TextInput = ({
+  name,
+  placeholder,
+  type,
+  value,
+  onChangeHandler,
+  touched,
+  errorMsg
+}) => {
   return (
     <div className='field'>
       <input
@@ -10,6 +18,7 @@ const TextInput = ({ name, placeholder, type, value, onChangeHandler }) => {
         onChange={onChangeHandler}
         value={value}
       />
+      <label>{`${touched && errorMsg ? errorMsg : ''}`}</label>
     </div>
   );
 };

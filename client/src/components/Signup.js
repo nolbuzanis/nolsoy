@@ -3,21 +3,71 @@ import TextInput from './TextInput';
 
 class Signup extends React.Component {
   state = {
-    email: '',
-    password: '',
-    name: '',
-    email2: '',
-    errors: {
-      name: '',
-      password: '',
-      email: ''
+    email: {
+      value: '',
+      error: '',
+      touched: false
+    },
+    email2: {
+      value: '',
+      error: '',
+      touched: false
+    },
+    name: {
+      value: '',
+      error: '',
+      touched: false
+    },
+    password: {
+      value: '',
+      error: '',
+      touched: false
+    }
+  };
+
+  generateErrorMsg = (name, value) => {
+    console.log(name, value);
+    switch (name) {
+      case 'email': {
+        if (value.length === 0 || value === '')
+          return 'Please enter your email.';
+        break;
+      }
+      case 'email2': {
+        if (value.length === 0 || value === '')
+          return 'Please enter your email.';
+        if (value !== this.state.email.value) return 'Emails do not match.';
+        break;
+      }
+      case 'password': {
+        if (value.length === 0 || value === '')
+          return 'Please enter a password to continue.';
+        if (value.length < 8) return 'Your password is too short.';
+        break;
+      }
+      case 'name': {
+        if (value.length === 0 || value === '')
+          return 'Your do not have a name?';
+      }
+      default: {
+        break;
+      }
     }
   };
 
   changeHandler = event => {
     const { name, value } = event.target;
 
-    this.setState({ [name]: value });
+    let currentInput = this.state[name];
+    currentInput.error = this.generateErrorMsg(name, value);
+
+    if (!this.state[name].touched) {
+      currentInput.touched = true;
+    }
+
+    //this.setState({ [name]: { error: this.generateErrorMsg(name, value) } });
+
+    this.setState({ [name]: { ...currentInput, value } });
   };
 
   handleSubmit = e => {
@@ -41,30 +91,38 @@ class Signup extends React.Component {
           <TextInput
             name='email'
             type='email'
-            value={this.state.email}
+            value={this.state.email.value}
             onChangeHandler={e => this.changeHandler(e)}
             placeholder='Email'
+            errorMsg={this.state.email.error}
+            touched={this.state.email.touched}
           />
           <TextInput
             name='email2'
             type='email'
-            value={this.state.email2}
+            value={this.state.email2.value}
             onChangeHandler={e => this.changeHandler(e)}
             placeholder='Confirm Email'
+            errorMsg={this.state.email2.error}
+            touched={this.state.email2.touched}
           />
           <TextInput
             name='password'
             type='password'
-            value={this.state.password}
+            value={this.state.password.value}
             onChangeHandler={e => this.changeHandler(e)}
             placeholder='Password'
+            errorMsg={this.state.password.error}
+            touched={this.state.password.touched}
           />
           <TextInput
             name='name'
             type='text'
-            value={this.state.name}
+            value={this.state.name.value}
             onChangeHandler={e => this.changeHandler(e)}
             placeholder='What should we call you?'
+            errorMsg={this.state.name.error}
+            touched={this.state.name.touched}
           />
 
           <button type='submit' className='ui button'>
