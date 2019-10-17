@@ -4,67 +4,81 @@ class Signup extends React.Component {
   state = {
     email: '',
     password: '',
-    password2: ''
+    name: '',
+    email2: '',
+    errors: {
+      name: '',
+      password: '',
+      email: ''
+    }
   };
 
   changeHandler = event => {
     const { name, value } = event.target;
 
-    this.setState({
-      [name]: value
-    });
+    this.setState({ [name]: value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     console.log('Email: ', this.state.email);
     console.log('Password: ', this.state.password);
-    console.log('Password2: ', this.state.password2);
+    console.log('name: ', this.state.name);
   };
 
   render() {
     return (
-      <form
-        className='container'
-        style={{ paddingTop: '60px' }}
-        onSubmit={e => this.handleSubmit(e)}
-      >
-        <div className='form-group'>
-          <label htmlFor='signup-email'>Email address</label>
-          <input
-            name='email'
-            className='form-control'
-            id='signup-email'
-            onChange={e => this.changeHandler(e)}
-            value={this.state.email}
-          />
-        </div>
-        <div className='form-group'>
-          <label htmlor='signup-password'>Password</label>
-          <input
-            type='password'
-            name='password'
-            className='form-control'
-            id='signup-password'
-            onChange={e => this.changeHandler(e)}
-            value={this.state.password}
-          />
-        </div>
-        <div className='form-group'>
-          <label htmlor='signup-password2'>Verify Password</label>
-          <input
-            type='password'
-            name='password2'
-            className='form-control'
-            id='signup-password2'
-            onChange={e => this.changeHandler(e)}
-            value={this.state.password2}
-          />
-        </div>
-        <button type='submit' className='btn btn-primary'>
-          Submit
-        </button>
-      </form>
+      <div className='ui container segment'>
+        <form
+          className='ui form'
+          style={{ paddingTop: '60px' }}
+          onSubmit={e => this.handleSubmit(e)}
+        >
+          <h3 className='ui center aligned header'>
+            Sign up with your email address
+          </h3>
+          <div className='field'>
+            <input
+              type='email'
+              name='email'
+              placeholder='Email'
+              onChange={e => this.changeHandler(e)}
+              value={this.state.email}
+            />
+          </div>
+          <div className='field'>
+            <input
+              type='email'
+              name='email2'
+              placeholder='Confirm Email'
+              onChange={e => this.changeHandler(e)}
+              value={this.state.email2}
+            />
+          </div>
+          <div className='field'>
+            <input
+              type='password'
+              name='password'
+              placeholder='Password'
+              onChange={e => this.changeHandler(e)}
+              value={this.state.password}
+            />
+          </div>
+          <div className='field'>
+            <input
+              type='text'
+              name='name'
+              placeholder='What should we call you?'
+              onChange={e => this.changeHandler(e)}
+              value={this.state.name}
+            />
+          </div>
+
+          <button type='submit' className='ui button'>
+            Submit
+          </button>
+        </form>
+      </div>
     );
   }
 }
