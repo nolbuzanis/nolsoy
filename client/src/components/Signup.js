@@ -26,16 +26,19 @@ class Signup extends React.Component {
   };
 
   generateErrorMsg = (name, value) => {
-    console.log(name, value);
     switch (name) {
       case 'email': {
         if (value.length === 0 || value === '')
           return 'Please enter your email.';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+          return 'The email address you supplied is invalid.';
         break;
       }
       case 'email2': {
         if (value.length === 0 || value === '')
           return 'Please enter your email.';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+          return 'The email address you supplied is invalid.';
         if (value !== this.state.email.value) return 'Emails do not match.';
         break;
       }
@@ -50,6 +53,7 @@ class Signup extends React.Component {
           return 'Your do not have a name?';
       }
       default: {
+        return '';
         break;
       }
     }
@@ -60,14 +64,14 @@ class Signup extends React.Component {
 
     let currentInput = this.state[name];
     currentInput.error = this.generateErrorMsg(name, value);
+    currentInput.value = value;
 
     if (!this.state[name].touched) {
       currentInput.touched = true;
     }
 
-    //this.setState({ [name]: { error: this.generateErrorMsg(name, value) } });
-
-    this.setState({ [name]: { ...currentInput, value } });
+    // Call set state once at end with changed values since it is an async function
+    this.setState({ [name]: currentInput });
   };
 
   handleSubmit = e => {

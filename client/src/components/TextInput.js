@@ -17,8 +17,11 @@ const TextInput = ({
         placeholder={placeholder}
         onChange={onChangeHandler}
         value={value}
+        style={{ borderColor: `${!errorMsg ? '' : '#bd3200'}` }}
       />
-      <label>{`${touched && errorMsg ? errorMsg : ''}`}</label>
+      <label style={{ color: '#bd3200' }}>{`${
+        touched && errorMsg ? errorMsg : ''
+      }`}</label>
     </div>
   );
 };
