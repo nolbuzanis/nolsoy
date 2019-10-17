@@ -1,4 +1,5 @@
 import React from 'react';
+import TextInput from './TextInput';
 
 class Signup extends React.Component {
   state = {
@@ -37,42 +38,34 @@ class Signup extends React.Component {
           <h3 className='ui center aligned header'>
             Sign up with your email address
           </h3>
-          <div className='field'>
-            <input
-              type='email'
-              name='email'
-              placeholder='Email'
-              onChange={e => this.changeHandler(e)}
-              value={this.state.email}
-            />
-          </div>
-          <div className='field'>
-            <input
-              type='email'
-              name='email2'
-              placeholder='Confirm Email'
-              onChange={e => this.changeHandler(e)}
-              value={this.state.email2}
-            />
-          </div>
-          <div className='field'>
-            <input
-              type='password'
-              name='password'
-              placeholder='Password'
-              onChange={e => this.changeHandler(e)}
-              value={this.state.password}
-            />
-          </div>
-          <div className='field'>
-            <input
-              type='text'
-              name='name'
-              placeholder='What should we call you?'
-              onChange={e => this.changeHandler(e)}
-              value={this.state.name}
-            />
-          </div>
+          <TextInput
+            name='email'
+            type='email'
+            value={this.state.email}
+            onChangeHandler={e => this.changeHandler(e)}
+            placeholder='Email'
+          />
+          <TextInput
+            name='email2'
+            type='email'
+            value={this.state.email2}
+            onChangeHandler={e => this.changeHandler(e)}
+            placeholder='Confirm Email'
+          />
+          <TextInput
+            name='password'
+            type='password'
+            value={this.state.password}
+            onChangeHandler={e => this.changeHandler(e)}
+            placeholder='Password'
+          />
+          <TextInput
+            name='name'
+            type='text'
+            value={this.state.name}
+            onChangeHandler={e => this.changeHandler(e)}
+            placeholder='What should we call you?'
+          />
 
           <button type='submit' className='ui button'>
             Submit
