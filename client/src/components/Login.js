@@ -1,9 +1,66 @@
 import React from 'react';
+import TextInput from './TextInput';
 
 class Login extends React.Component {
+  state = {
+    email: {
+      value: '',
+      error: '',
+      touched: false
+    },
+    password: {
+      value: '',
+      error: '',
+      touched: false
+    }
+  };
+
   handleUserLogin = () => {
     console.log('Button pressed!');
     this.props.userLoginGoogle();
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    console.log('Clicked login button!');
+    // Make axios call to server
+  };
+
+  generateErrorMsg = (name, value) => {
+    switch (name) {
+      case 'email': {
+        if (value.length === 0 || value === '')
+          return 'Please enter your email.';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+          return 'The email address you supplied is invalid.';
+        break;
+      }
+      case 'password': {
+        if (value.length === 0 || value === '')
+          return 'Please enter a password to continue.';
+        if (value.length < 8) return 'Your password is too short.';
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+    return '';
+  };
+
+  changeHandler = event => {
+    const { name, value } = event.target;
+
+    let currentInput = this.state[name];
+    currentInput.error = this.generateErrorMsg(name, value);
+    currentInput.value = value;
+
+    if (!this.state[name].touched) {
+      currentInput.touched = true;
+    }
+
+    // Call set state once at end with changed values since it is an async function
+    this.setState({ [name]: currentInput });
   };
 
   render() {
@@ -12,24 +69,34 @@ class Login extends React.Component {
         <a className='btn btn-primary' href='/auth/google'>
           Log in with Google
         </a>
-        <p>OR</p>
-        <form className='container'>
-          <div className='form-group'>
-            <label htmlFor='login-email'>Email address</label>
-            <input type='email' className='form-control' id='login-email' />
-          </div>
-          <div className='form-group'>
-            <label htmlor='login-password'>Password</label>
-            <input
-              type='password'
-              className='form-control'
-              id='login-password'
+        <div className='ui container segment'>
+          <form className='ui form' onClick={e => this.handleSubmit(e)}>
+            <h3 className='ui center aligned header'>
+              Login in with your account
+            </h3>
+            <TextInput
+              name='email'
+              type='email'
+              value={this.state.email.value}
+              onChangeHandler={e => this.changeHandler(e)}
+              placeholder='Email'
+              errorMsg={this.state.email.error}
+              touched={this.state.email.touched}
             />
-          </div>
-          <button type='submit' className='btn btn-primary'>
-            Log In
-          </button>
-        </form>
+            <TextInput
+              name='password'
+              type='password'
+              value={this.state.password.value}
+              onChangeHandler={e => this.changeHandler(e)}
+              placeholder='Password'
+              errorMsg={this.state.password.error}
+              touched={this.state.password.touched}
+            />
+            <button type='submit' className='ui button secondary'>
+              Log In
+            </button>
+          </form>
+        </div>
       </div>
     );
   }

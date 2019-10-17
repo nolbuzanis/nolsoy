@@ -53,10 +53,10 @@ class Signup extends React.Component {
           return 'Your do not have a name?';
       }
       default: {
-        return '';
         break;
       }
     }
+    return '';
   };
 
   changeHandler = event => {
@@ -76,9 +76,8 @@ class Signup extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log('Email: ', this.state.email);
-    console.log('Password: ', this.state.password);
-    console.log('name: ', this.state.name);
+    console.log(this.state);
+    // Make axios call to server
   };
 
   render() {
@@ -129,7 +128,7 @@ class Signup extends React.Component {
             touched={this.state.name.touched}
           />
 
-          <button type='submit' className='ui button'>
+          <button type='submit' className='ui button teal'>
             Submit
           </button>
         </form>
