@@ -1,5 +1,7 @@
 import React from 'react';
+import axios from 'axios';
 import TextInput from './TextInput';
+import queryString from 'querystring';
 
 class Signup extends React.Component {
   state = {
@@ -74,10 +76,31 @@ class Signup extends React.Component {
     this.setState({ [name]: currentInput });
   };
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
-    console.log(this.state);
+
     // Make axios call to server
+    try {
+      const data = {
+        email: this.state.email.value,
+        email2: this.state.email2.value,
+        password: this.state.password.value,
+        name: this.state.name.value
+      };
+      const res = await fetch('/auth/signup', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+
+    //console.log(this.state);
   };
 
   render() {

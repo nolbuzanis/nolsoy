@@ -1,4 +1,5 @@
 const passport = require('passport');
+
 //const jwt = require('jsonwebtoken');
 //const keys = require('../config/keys');
 
@@ -6,10 +7,11 @@ module.exports = app => {
   //app.post('/login', passport.authenticate('local'));
 
   app.post(
-    '/signup',
+    '/auth/signup',
     passport.authenticate('local-signup', {
+      failureRedirect: '/signup',
       successRedirect: '/',
-      failureRedirect: '/signup'
+      failureFlash: true
     })
   );
 
@@ -23,7 +25,7 @@ module.exports = app => {
   app.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-      successRedirect: '/',
+      successRedirect: '/profile',
       failureRedirect: '/login',
       failureFlash: true
     }),

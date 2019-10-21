@@ -33,13 +33,18 @@ passport.use(
       passwordField: 'password',
       passReqToCallback: true
     },
-    async (email, password, done) => {
+    async (req, email, password, done) => {
       try {
+        console.log('REQ: ', req.body);
+        console.log('Email: ', email);
+        console.log('Password: ', password);
+
         const user = await User.findOne({
           where: {
             email: email
           }
         });
+        console.log(user);
 
         // If user already exists with that email then return with no user.
         if (user) {
@@ -47,19 +52,17 @@ passport.use(
           return done(
             null,
             false,
-            'signupMessage',
-            'That email is already taken.'
+            req.flash('signupMessage', 'That email is already taken.')
           );
         }
 
         // If no user exists, create a new user with hashed password
         var hash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-        const newUser = {
+        const newUser = await User.create({
           email: email,
           password: hash
-        };
-        User.create(newUser);
+        });
         done(null, newUser);
       } catch (err) {
         console.log(err);
@@ -78,6 +81,7 @@ passport.use(
       callbackURL: '/auth/google/callback'
     },
     async (accessToken, refreshToken, profile, done) => {
+      //console.log(profile);
       try {
         const existingUser = await User.findOne({
           where: {
@@ -85,13 +89,14 @@ passport.use(
           }
         });
 
+        console.log(existingUser);
         if (!existingUser) {
           const newUser = {
             googleId: profile.id,
             name: profile.displayName,
             googleEmail: profile.emails[0].value
           };
-          User.create(newUser);
+          await User.create(newUser);
           done(null, newUser);
         }
 

@@ -3,6 +3,7 @@ const keys = require('./config/keys');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
 const morgan = require('morgan');
+const flash = require('connect-flash');
 
 const sequelize = require('./config/database');
 const app = express();
@@ -20,6 +21,9 @@ require('./services/passport'); //Passport config
 app.use(morgan('dev')); // Log every req to the console
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
+app.use(express.urlencoded());
+app.use(express.json());
 
 require('./routes/authRoutes')(app); //Google oauth routes
 
